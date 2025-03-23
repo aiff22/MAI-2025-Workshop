@@ -72,14 +72,8 @@ with tf.compat.v1.Session() as sess:
 
     # Export your model to the TFLite format
     converter = tf.compat.v1.lite.TFLiteConverter.from_session(sess, [x_], [output_])
-
-    # Be very careful here:
-    # "experimental_new_converter" is enabled by default in TensorFlow 2.2+. However, using the new MLIR TFLite
-    # converter might result in corrupted / incorrect TFLite models for some particular architectures. Therefore, the
-    # best option is to perform the conversion using both the new and old converter and check the results in each case:
-    converter.experimental_new_converter = False
-
     tflite_model = converter.convert()
+
     open("model.tflite", "wb").write(tflite_model)
 
     # -----------------------------------------------------------------------------
